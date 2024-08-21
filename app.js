@@ -8,6 +8,8 @@ import connectDB from './index.js';
 import getUsers from './actions/getUsers.js';
 import getAnimals from './actions/getAnimals.js';
 import getTrainingLogs from './actions/getTrainingLogs.js';
+import User from './models/User.js';
+import bcrypt from "bcrypt";
 
 dotenv.config();
 const app = express();
@@ -24,6 +26,8 @@ app.get('/api/health', (req, res) => {
 
 app.post('/api/user', async (req, res) => {
     const { firstName, lastName, email, password, profilePicture } = req.body
+    console.log(firstName)
+    console.log(password)
     
     if (!firstName || !lastName || !email || !password) {
         res.status(400).json({status: "Failed", message: "Missing fields"})
@@ -151,6 +155,27 @@ app.get('/api/admin/animals', async (req, res) => {
         return res.status(500).json({status: "Failed", message: "Failed getting all animals"})
     }
 })
+
+
+app.post('/api/user/login', async (req, res) => {
+    
+    const email = req.body.email
+    const userExists = await User.findOne({'email': email})
+    if (!userExists) {
+        return res.status(403).json({status: "Failed", message: "Email is invalid"})
+    }
+
+    const inputPassword = req.body.password
+    console.log(inputPassword)
+    console.log(userExists.password)
+    const loginValid = bcrypt.compareSync(inputPassword, userExists.password)
+
+    if (loginValid) {
+        return res.status(200).send("Login Successful!")
+    } 
+    return res.status(403).json({status: "Failed", message: "Email/Password combo is invalid"})
+})
+
 
 
 
