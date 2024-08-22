@@ -4,9 +4,9 @@ import createTrainingLog from '../actions/createTrainingLog.js';
 
 router.post('/training', async (req, res) => {
 
-    const { date, description, hours, animal, user, trainingLogVideo } = req.body
+    const { date, description, hours, animal, trainingLogVideo } = req.body
     
-    if (!date || !description || !hours || !animal || !user) {
+    if (!date || !description || !hours || !animal ) {
         res.status(400).json({status: "Failed", message: "Missing fields"})
     }
 
@@ -16,7 +16,7 @@ router.post('/training', async (req, res) => {
             description: description,
             hours: hours,
             animal: animal,
-            user: user,
+            user: req.user._id,
             trainingLogVideo: trainingLogVideo || undefined
         });
 

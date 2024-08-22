@@ -4,9 +4,9 @@ import createAnimal from '../actions/createAnimal.js';
 
 
 router.post('/animal',  async (req, res) => {
-    const { name, hoursTrained, owner, dateOfBirth, profilePicture } = req.body
-    
-    if (!name || !hoursTrained || !owner) {
+    const { name, hoursTrained, dateOfBirth, profilePicture } = req.body
+
+    if (!name || !hoursTrained ) {
         res.status(400).json({status: "Failed", message: "Missing fields"})
     }
 
@@ -14,7 +14,7 @@ router.post('/animal',  async (req, res) => {
         const response = await createAnimal({
             name: name,
             hoursTrained: hoursTrained,
-            owner: owner,
+            owner: req.user._id,
             dateOfBirth: dateOfBirth || undefined,
             profilePicture: profilePicture || undefined
         });

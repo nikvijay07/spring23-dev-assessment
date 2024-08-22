@@ -29,21 +29,22 @@ app.use(express.urlencoded({ extended: true }));
 
 connectDB()
 
+
+
+app.use('/api', login)
+app.use('/api', verify)
+
 app.use('/api', jwtAuthentication, getHealth)
 
 
 app.use('/api', jwtAuthentication, addUser)
-app.use('/api',jwtAuthentication, addAnimal)
+app.use('/api', jwtAuthentication, addAnimal)
 app.use('/api', jwtAuthentication, addTrainingLog)
 
 
 app.use('/api',jwtAuthentication, getTrainingLogs)
 app.use('/api',jwtAuthentication, getUsers)
 app.use('/api', jwtAuthentication, getAnimals)
-
-
-app.use('/api',jwtAuthentication, login)
-app.use('/api', jwtAuthentication, verify)
 
 app.listen(APP_PORT, () => {
     console.log(`api listening at http://localhost:${APP_PORT}`)
