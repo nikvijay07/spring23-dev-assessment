@@ -17,7 +17,7 @@ import getUsers from "./api/admin/getUsers.js"
 import getAnimals from './api/admin/getAnimals.js';
 import login from './api/login.js'
 import verify from './api/verify.js'
-import jwtAuthentication from './jwtAuthentication.js';
+import jwtAuthentication from './api/jwtAuthentication.js';
 
 
 dotenv.config();
@@ -31,19 +31,19 @@ connectDB()
 
 
 
+
 app.use('/api', login)
 app.use('/api', verify)
 
 app.use('/api', jwtAuthentication, getHealth)
-
 
 app.use('/api', jwtAuthentication, addUser)
 app.use('/api', jwtAuthentication, addAnimal)
 app.use('/api', jwtAuthentication, addTrainingLog)
 
 
-app.use('/api',jwtAuthentication, getTrainingLogs)
-app.use('/api',jwtAuthentication, getUsers)
+app.use('/api', jwtAuthentication, getTrainingLogs)
+app.use('/api', jwtAuthentication, getUsers)
 app.use('/api', jwtAuthentication, getAnimals)
 
 app.listen(APP_PORT, () => {

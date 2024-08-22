@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken"
 router.post('/user/verify', async (req, res) => {
     
     const email = req.body.email
-    console.log(email)
     const userExists = await User.findOne({'email': email})
     if (!userExists) {
         return res.status(403).json({status: "Failed", message: "Email is invalid"})
@@ -18,7 +17,7 @@ router.post('/user/verify', async (req, res) => {
 
     const plainUserObject = userExists.toObject()
     if (loginValid) {
-        const jwt_token = jwt.sign(plainUserObject, process.env.JWT_STRING, {expiresIn: "1hr"})
+        const jwt_token = jwt.sign(plainUserObject, process.env.JWT_STRING, {expiresIn: "30s"})
         res.cookie("jwt-token", jwt_token, {
             httpOnly: true
         })
